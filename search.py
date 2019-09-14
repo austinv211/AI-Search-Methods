@@ -91,12 +91,12 @@ def depthFirstSearch(problem: SearchProblem):
 
     #add the start node to the stack
     stack.push((problem.getStartState(), []))
-    visited = set()
+    visited = []
 
     while not stack.isEmpty():
         (vertex, directions) = stack.pop()
         if vertex not in visited:
-            visited.add(vertex)
+            visited.append(vertex)
             if problem.isGoalState(vertex):
                 return directions
             for next_vertex, direction, _ in problem.getSuccessors(vertex):
@@ -111,12 +111,12 @@ def breadthFirstSearch(problem):
     #add the start node to the stack
     queue.push((problem.getStartState(), []))
 
-    visited = set()
+    visited = []
 
     while not queue.isEmpty():
         (vertex, actions) = queue.pop()
         if vertex not in visited:
-            visited.add(vertex)
+            visited.append(vertex)
             if problem.isGoalState(vertex):
                 return actions
             for next_vertex, action, _ in problem.getSuccessors(vertex):
@@ -131,12 +131,12 @@ def uniformCostSearch(problem):
     #add the start node to the stack
     p_queue.push((problem.getStartState(), [], 0), 0)
 
-    visited = set()
+    visited = []
 
     while not p_queue.isEmpty():
         (vertex, directions, total_cost) = p_queue.pop()
         if vertex not in visited:
-            visited.add(vertex)
+            visited.append(vertex)
             if problem.isGoalState(vertex):
                 return directions
             for next_vertex, direction, cost in problem.getSuccessors(vertex):
@@ -158,12 +158,12 @@ def aStarSearch(problem, heuristic=nullHeuristic):
     #add the start node to the stack
     p_queue.push((problem.getStartState(), [], 0), 0)
 
-    visited = set()
+    visited = []
 
     while not p_queue.isEmpty():
         (vertex, directions, total_cost) = p_queue.pop()
         if vertex not in visited:
-            visited.add(vertex)
+            visited.append(vertex)
             if problem.isGoalState(vertex):
                 return directions
             for next_vertex, direction, cost in problem.getSuccessors(vertex):
