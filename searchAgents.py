@@ -333,9 +333,7 @@ class CornersProblem(search.SearchProblem):
             x,y = currentPosition
             dx, dy = Actions.directionToVector(action)
             nextx, nexty = int(x + dx), int(y + dy)
-            hitsWall = self.walls[nextx][nexty]
-
-            if not hitsWall: # if we aren't going to hit a wall
+            if not self.walls[nextx][nexty]: # if we aren't going to hit a wall
                 if (nextx, nexty) in self.corners and (nextx, nexty) not in foundCorners:
                     visited = foundCorners + [(nextx, nexty)]
                     successors.append((((nextx, nexty), visited), action, 1))
@@ -481,7 +479,19 @@ def foodHeuristic(state, problem):
     position, foodGrid = state
     foodList = foodGrid.asList()
 
-    return max([mazeDistance(position, food, problem.startingGameState) for food in foodList], default=0)
+    memo = problem.heuristicInfo
+    remainingFood = []
+
+    if foodList:
+        for food in foodList:
+            if (position, food) not in memo:
+                memo[(position, food)] = mazeDistance(position, food, problem.startingGameState)
+            remainingFood.append(memo[(position, food)])
+        return max(remainingFood)
+    return 0
+
+    #return max([mazeDistance(position, food, problem.startingGameState) for food in foodList], default=0)
+    #return max([util.manhattanDistance(position, food) for food in foodList], default=0)
 
 
 class ClosestDotSearchAgent(SearchAgent):
